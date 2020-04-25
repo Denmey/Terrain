@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 # ---- Project ----
 
 # Note: update this to your new project's name and version
-project(Greeter 
-  VERSION 1.0
+project(Terrain 
+  VERSION 0.1
   LANGUAGES CXX
 )
 
@@ -30,6 +30,22 @@ CPMAddPackage(
   VERSION 1.2
 )
 
+CPMFindPackage(
+  NAME glfw3
+  GITHUB_REPOSITORY glfw/glfw
+  GIT_TAG 3.3.2
+  # VERSION 3.3.2 # Tags in repository don't have 'v' prefix, so this doesn't work 
+  OPTIONS
+    "GLFW_BUILD_EXAMPLES Off"
+    "GLFW_BUILD_TESTS Off"
+)
+
+CPMFindPackage(
+  NAME GLEW
+  GITHUB_REPOSITORY nigels-com/glew
+  GIT_TAG glew-2.1.0
+)
+
 # ---- Add source files ----
 
 # Note: globbing sources is considered bad practice as CMake's generators may not detect new files automatically.
@@ -37,23 +53,26 @@ CPMAddPackage(
 FILE(GLOB_RECURSE headers CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h")
 FILE(GLOB_RECURSE sources CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp")
 
+# TODO: Copy resources (such as shaders, textures, etc.) in build directory?
+
 # ---- Create library ----
 
 # Note: for header-only libraries change all PUBLIC flags to INTERFACE and create an interface target:
-# add_library(Greeter INTERFACE)  
-# set_target_properties(Greeter PROPERTIES INTERFACE_COMPILE_FEATURES cxx_std_17)
+# add_library(Terrain INTERFACE)  
+# set_target_properties(Terrain PROPERTIES INTERFACE_COMPILE_FEATURES cxx_std_17)
 
-add_library(Greeter ${headers} ${sources})
+add_library(Terrain ${headers} ${sources})
 
-set_target_properties(Greeter PROPERTIES CXX_STANDARD 17)
+set_target_properties(Terrain PROPERTIES CXX_STANDARD 17)
 
 # beeing a cross-platform target, we enforce enforce standards conformance on MSVC
-target_compile_options(Greeter PUBLIC "$<$<BOOL:${MSVC}>:/permissive->")
+target_compile_options(Terrain PUBLIC "$<$<BOOL:${MSVC}>:/permissive->")
 
 # Link dependencies (if required)
-# target_link_libraries(Greeter PUBLIC cxxopts)
+target_link_libraries(Terrain PRIVATE glfw GLEW::glew)
+# target_link_libraries(Terrain PUBLIC glfw)
 
-target_include_directories(Greeter
+target_include_directories(Terrain
   PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
