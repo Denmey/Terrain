@@ -33,7 +33,7 @@ namespace Trn {
 					exit(EXIT_FAILURE);
 					break;
 			}
-			shader.set1f(("material." + name).c_str(), i);
+			shader.set1f(("material." + name).c_str(), static_cast<float>(i));
 			glBindTexture(GL_TEXTURE_2D, textures[i].id);
 		}
 		glActiveTexture(GL_TEXTURE0);

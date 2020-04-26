@@ -23,7 +23,7 @@ namespace Trn {
 		Time& operator=(const Time&);
 
 		void update();
-		float lastTime, currentTime, deltaTime;
+		double lastTime, currentTime, deltaTime;
 
 		friend class Window;
 	};
