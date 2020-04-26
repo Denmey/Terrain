@@ -24,10 +24,10 @@ jobs:
     #   run: sudo apt-get install -y --no-install-recommends libxrandr-dev libxinerama-dev
 
     - name: configure
-      run: cmake -Hstandalone -Bbuild
+      run: cmake -Hstandalone/Terrain -Bbuild
 
     - name: build
       run: cmake --build build -j4
 
     - name: run
-      run: ./build/Greeter
+      run: ./build/standalone/Terrain
