@@ -1,6 +1,7 @@
 #pragma once
 
-#include <GL/glew.h>
+// #include <GL/glew.h>
+#include <glad.h>
 #include <glm/glm.hpp>
 #include "Shader.hpp"
 #include <string>

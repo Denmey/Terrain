@@ -30,27 +30,35 @@ CPMAddPackage(
   VERSION 1.2
 )
 
+add_subdirectory(extern/glad)
+# CPMAddPackage(
+#   NAME GLAD
+#   SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/extern/glad
+# )
+
 CPMFindPackage(
   NAME glfw3
   GITHUB_REPOSITORY glfw/glfw
   GIT_TAG 3.3.2
-  # VERSION 3.3.2 # Tags in repository don't have 'v' prefix, so this doesn't work 
   OPTIONS
     "GLFW_BUILD_EXAMPLES Off"
     "GLFW_BUILD_TESTS Off"
+    "GLFW_BUILD_DOCS Off"
 )
 
 CPMFindPackage(
-  NAME GLEW
-  GITHUB_REPOSITORY nigels-com/glew
-  GIT_TAG glew-2.1.0
-)
-
-CPMFindPackage(
-  NAME GLEW
+  NAME glm
   GITHUB_REPOSITORY g-truc/glm
   GIT_TAG 0.9.9.8
+  DOWNLOAD_ONLY YES
 )
+
+if (glm_ADDED)
+  # message(STATUS "GLM was found: " ${glm_SOURCE_DIR})
+  add_library(glm INTERFACE IMPORTED)
+  # TODO: Check if this needed
+  target_include_directories(glm INTERFACE "${glm_SOURCE_DIR}")
+endif()
 
 # ---- Add source files ----
 
@@ -75,8 +83,8 @@ set_target_properties(Terrain PROPERTIES CXX_STANDARD 17)
 target_compile_options(Terrain PUBLIC "$<$<BOOL:${MSVC}>:/permissive->")
 
 # Link dependencies (if required)
-# target_link_libraries(Terrain PRIVATE glfw GLEW::glew)
-target_link_libraries(Terrain PUBLIC glfw GLEW::glew)
+# target_link_libraries(Terrain PRIVATE glfw glm)
+target_link_libraries(Terrain PUBLIC glfw glm GLAD)
 
 target_include_directories(Terrain
   PUBLIC
@@ -93,5 +101,5 @@ packageProject(
   BINARY_DIR ${PROJECT_BINARY_DIR}
   INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include
   INCLUDE_DESTINATION include/${PROJECT_NAME}-${PROJECT_VERSION}
-  DEPENDENCIES ""
+  DEPENDENCIES "glfw3;glm"
 )

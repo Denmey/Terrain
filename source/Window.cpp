@@ -5,6 +5,7 @@
 namespace Trn {
 	Window::Window(const char* name, const Settings& settings) {
 		glfwSetErrorCallback([](int error, const char* description) {
+			(void)error;
 			std::cerr << "Error: " << description << std::endl;
 		});
 		if (!glfwInit()) {
@@ -21,8 +22,8 @@ namespace Trn {
 		}
 		glfwMakeContextCurrent(window);
 
-		if (glewInit() != GLEW_OK){
-			error("Can't init glew");
+		if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
+			error("Failed to initialize OpenGL context");
 		}
 
 		glViewport(0, 0, settings.width, settings.height);

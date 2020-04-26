@@ -37,6 +37,8 @@ CPMAddPackage(
 # ---- Create binary ----
 
 file(GLOB sources CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp)
+# TODO: Delete
+message(STATUS "Sources for TerrainTests: " ${sources})
 add_executable(TerrainTests ${sources})
 target_link_libraries(TerrainTests doctest Terrain)
 
@@ -45,7 +47,7 @@ set_target_properties(TerrainTests PROPERTIES CXX_STANDARD 17)
 # enable compiler warnings
 if (NOT TEST_INSTALLED_VERSION)
   if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-    target_compile_options(Terrain PUBLIC -Wall -pedantic -Wextra -Werror)
+    target_compile_options(Terrain PUBLIC -Wall -pedantic -Wextra)
   elseif(MSVC)
     target_compile_options(Terrain PUBLIC /W4 /WX)
     target_compile_definitions(TerrainTests PUBLIC DOCTEST_CONFIG_USE_STD_HEADERS)

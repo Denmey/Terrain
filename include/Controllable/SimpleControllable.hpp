@@ -11,7 +11,12 @@ class SimpleControllable : public Controllable {
 public:
 	SimpleControllable(glm::vec3 position, glm::vec3 forward, glm::vec3 up, Camera camera)
 	// : Controllable(position, forward, up, camera)
-	{ }
+	{
+		(void)position;
+		(void)forward;
+		(void)up;
+		(void)camera;
+	}
 	// virtual void update() override {
 	//
 	// }
