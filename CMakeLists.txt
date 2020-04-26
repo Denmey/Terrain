@@ -81,6 +81,8 @@ set_target_properties(Terrain PROPERTIES CXX_STANDARD 17)
 
 # beeing a cross-platform target, we enforce enforce standards conformance on MSVC
 target_compile_options(Terrain PUBLIC "$<$<BOOL:${MSVC}>:/permissive->")
+# Disable warnings as errors on MSVC
+target_compile_options(Terrain PUBLIC "$<$<BOOL:${MSVC}>:/WX-")
 
 # Link dependencies (if required)
 # target_link_libraries(Terrain PRIVATE glfw glm)
