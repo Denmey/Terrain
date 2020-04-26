@@ -24,8 +24,8 @@ jobs:
       run: sudo apt-get update -qq
     # - name: apt get glfw
     #   run: sudo apt-get install -y --no-install-recommends libglfw3 libglfw3-dev libglew-dev
-    - name: apt get xrandr
-      run: sudo apt-get install -y --no-install-recommends libxrandr-dev
+    - name: get dependencies
+      run: sudo apt-get install -y --no-install-recommends libxrandr-dev libxinerama-dev
     
     - name: configure
       run: cmake -Htest -Bbuild -DENABLE_TEST_COVERAGE=1
