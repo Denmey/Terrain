@@ -46,6 +46,12 @@ CPMFindPackage(
   GIT_TAG glew-2.1.0
 )
 
+CPMFindPackage(
+  NAME GLEW
+  GITHUB_REPOSITORY g-truc/glm
+  GIT_TAG 0.9.9.8
+)
+
 # ---- Add source files ----
 
 # Note: globbing sources is considered bad practice as CMake's generators may not detect new files automatically.
