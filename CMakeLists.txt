@@ -84,7 +84,7 @@ target_compile_options(Terrain PUBLIC "$<$<BOOL:${MSVC}>:/permissive->")
 
 # Link dependencies (if required)
 # target_link_libraries(Terrain PRIVATE glfw glm)
-target_link_libraries(Terrain PUBLIC glfw glm GLAD)
+target_link_libraries(Terrain PUBLIC glfw glm GLAD ${CMAKE_DL_LIBS})
 
 target_include_directories(Terrain
   PUBLIC
