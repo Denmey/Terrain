@@ -69,8 +69,8 @@ set_target_properties(Terrain PROPERTIES CXX_STANDARD 17)
 target_compile_options(Terrain PUBLIC "$<$<BOOL:${MSVC}>:/permissive->")
 
 # Link dependencies (if required)
-target_link_libraries(Terrain PRIVATE glfw GLEW::glew)
-# target_link_libraries(Terrain PUBLIC glfw)
+# target_link_libraries(Terrain PRIVATE glfw GLEW::glew)
+target_link_libraries(Terrain PUBLIC glfw GLEW::glew)
 
 target_include_directories(Terrain
   PUBLIC
