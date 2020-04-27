@@ -2,6 +2,7 @@
 
 // #include <GL/glew.h>
 #include <glad.h>
+// GLAD Before GLFW
 #include <GLFW/glfw3.h>
 
 namespace Trn {
