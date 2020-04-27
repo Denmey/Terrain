@@ -17,14 +17,13 @@ target_include_directories(GLAD PUBLIC # ${CMAKE_CURRENT_SOURCE_DIR}/include
 # target_link_libraries(GLAD PUBLIC)
 
 # TODO: install workflow failing to find GLAD
-# TODO: CMAKE_INSTALL_LIBDIR is empty?
-# MESSAGE(STATUS "CMAKE_INSTALL_LIBDIR: " $<INSTALL_PREFIX>)
 
-
-install(EXPORT GLADTargets FILE GLADTargets.cmake
-  EXPORT_LINK_INTERFACE_LIBRARIES
-  # DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/GLAD"
-  DESTINATION "lib/cmake/GLAD"
+# Copy headers 
+install(
+  FILES 
+    ${PROJECT_SOURCE_DIR}/include/glad.h 
+    ${PROJECT_SOURCE_DIR}/include/khrplatform.h 
+  DESTINATION include # TODO: Move to include/GLAD directory
 )
 
 install(TARGETS GLAD
@@ -34,12 +33,12 @@ install(TARGETS GLAD
   LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
 )
 
-# Copy headers 
-install(
-  FILES 
-    ${PROJECT_SOURCE_DIR}/include/glad.h 
-    ${PROJECT_SOURCE_DIR}/include/khrplatform.h 
-  DESTINATION include # TODO: Move to include/GLAD directory
+# TODO: CMAKE_INSTALL_LIBDIR is empty?
+# MESSAGE(STATUS "CMAKE_INSTALL_LIBDIR: " $<INSTALL_PREFIX>)
+install(EXPORT GLADTargets FILE GLADTargets.cmake
+  EXPORT_LINK_INTERFACE_LIBRARIES
+  # DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/GLAD"
+  DESTINATION "lib/cmake/GLAD"
 )
 
 # Generating config file
@@ -51,7 +50,7 @@ write_basic_package_version_file(
 )
 
 configure_package_config_file(
-  ${PROJECT_SOURCE_DIR}/Config.cmake.in
+  ${PROJECT_SOURCE_DIR}/GLADConfig.cmake.in
   "${CMAKE_CURRENT_BINARY_DIR}/GLADConfig.cmake"
   INSTALL_DESTINATION "lib/cmake/GLAD"
 )
