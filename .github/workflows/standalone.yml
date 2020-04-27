@@ -19,7 +19,7 @@ jobs:
     - name: apt-update
       run: sudo apt-get update -y
     - name: gcc update
-      run: sudo apt-get install gcc
+      run: sudo apt-get install -y gcc-9
     - name: get dependencies
       run: sudo apt-get install -y libglfw3 libglfw3-dev
     # - name: get dependencies
