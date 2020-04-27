@@ -12,8 +12,8 @@ namespace Trn {
 			static Time time;
 			return time;
 		}
-		float getDeltaTime() const noexcept;
-		float getTime () const noexcept;
+		double getDeltaTime() const noexcept;
+		double getTime () const noexcept;
 	private:
 		Time() {
 			lastTime = currentTime = glfwGetTime();

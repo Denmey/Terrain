@@ -7,10 +7,10 @@ namespace Trn {
 		deltaTime = currentTime - lastTime;
 	}
 
-	float Time::getDeltaTime() const noexcept {
+	double Time::getDeltaTime() const noexcept {
 		return deltaTime;
 	}
-	float Time::getTime () const noexcept {
+	double Time::getTime () const noexcept {
 		return currentTime;
 	}
 }

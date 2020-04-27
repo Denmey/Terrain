@@ -37,8 +37,7 @@ CPMAddPackage(
 # ---- Create binary ----
 
 file(GLOB sources CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp)
-# TODO: Delete
-message(STATUS "Sources for TerrainTests: " ${sources})
+
 add_executable(TerrainTests ${sources})
 target_link_libraries(TerrainTests doctest Terrain)
 

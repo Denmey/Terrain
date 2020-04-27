@@ -12,6 +12,7 @@
 #include "Camera/SimpleCamera.hpp"
 #include "ControllableCamera.hpp"
 
+#include <filesystem>
 #include <iostream>
 #include <vector>
 #include <memory>
@@ -39,12 +40,26 @@ std::shared_ptr<Controllable> activeControllable;
 // TODO: Cameras manager
 std::shared_ptr<Camera> activeCamera;
 
+static std::filesystem::path getResourcesPath(const std::filesystem::path& executablePath) {
+	auto executableDirectory = executablePath.parent_path();
+	auto resourcesPath = executableDirectory.append("Resources");
+	return resourcesPath;
+}
 
-int main() {
+static std::filesystem::path subdir(const std::filesystem::path& dir, const std::string& subdir) {
+	return std::filesystem::path(dir).append(subdir);
+}
+
+int main(int argc, char const *argv[]) {
+	auto resOrigin = getResourcesPath(argv[0]);
 	// Init shaders and camera
 	Trn::Shader basicShader;
-	basicShader.loadFromFile("./Shaders/Basic.vert", "./Shaders/Basic.frag");
+	basicShader.loadFromFile(
+		subdir(resOrigin, "Shaders/Basic.vert").string(),
+		subdir(resOrigin, "Shaders/Basic.frag").string()
+	);
 	basicShader.use();
+	// return 0;
 	auto controllableCamera = std::make_shared<ControllableCamera>(glm::vec3(0.0, 0.0, -1.0), 3.14/2);
 	activeControllable = controllableCamera;
 	activeCamera = controllableCamera;

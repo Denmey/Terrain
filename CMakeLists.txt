@@ -79,8 +79,6 @@ FILE(GLOB_RECURSE sources CONFIGURE_DEPENDS
   "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp"
 )
 
-# TODO: Copy resources (such as shaders, textures, etc.) in build directory?
-
 # ---- Create library ----
 
 # Note: for header-only libraries change all PUBLIC flags to INTERFACE and create an interface target:

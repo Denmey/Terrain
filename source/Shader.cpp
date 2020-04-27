@@ -82,6 +82,7 @@ namespace Trn {
 		std::stringstream vertexSource,
 		                  fragmentSource,
 		                  geometrySource;
+		// TODO: Add warning if source is empty
 		try {
 			std::ifstream vertFStr(vertexFile), fragFStr(fragmentFile), geomFStr;
 			vertexSource << vertFStr.rdbuf();

@@ -35,3 +35,14 @@ set_target_properties(TerrainStandalone PROPERTIES
 
 # target_link_libraries(TerrainStandalone Terrain cxxopts)
 target_link_libraries(TerrainStandalone Terrain)
+# file(COPY Resources 
+#   DESTINATION ${CMAKE_BINARY_DIR}
+# )
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E echo "Copying resources"
+)
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/Resources
+    $<TARGET_FILE_DIR:TerrainStandalone>/Resources
+)
