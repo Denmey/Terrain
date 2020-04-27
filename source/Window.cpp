@@ -22,7 +22,7 @@ namespace Trn {
 		}
 		glfwMakeContextCurrent(window);
 
-		if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
+		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 			error("Failed to initialize OpenGL context");
 		}
 
@@ -33,39 +33,30 @@ namespace Trn {
 	}
 
 	void Window::error(const char* text) {
-		std::cerr << "Error: "  << text << std::endl;
-		if (window)
-			glfwDestroyWindow(window);
+		std::cerr << "Error: " << text << std::endl;
+		if (window) glfwDestroyWindow(window);
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
 
-	void Window::warning(const char* text) {
-		std::cerr << "Warning: "  << text << std::endl;
-	}
+	void Window::warning(const char* text) { std::cerr << "Warning: " << text << std::endl; }
 
-	bool Window::shouldClose() {
-		return glfwWindowShouldClose(window);
-	}
+	bool Window::shouldClose() { return glfwWindowShouldClose(window); }
 
-	void Window::pollEvents() {
-		glfwPollEvents();
-	}
+	void Window::pollEvents() { glfwPollEvents(); }
 
-	void Window::swapBuffers() {
-		glfwSwapBuffers(window);
-	}
+	void Window::swapBuffers() { glfwSwapBuffers(window); }
 
 	Window::~Window() {
-		if (window)
-			glfwDestroyWindow(window);
+		if (window) glfwDestroyWindow(window);
 		glfwTerminate();
 	}
 
 	void Window::run() {
 		while (!glfwWindowShouldClose(window)) {
 			time.update();
-			// TODO: Create entities manager, move through all entities and call update for each of them here.
+			// TODO: Create entities manager, move through all entities and call update for each of
+			// them here.
 
 			runCallback();
 
@@ -74,13 +65,9 @@ namespace Trn {
 		}
 	}
 
-	void Window::setRunCallback(std::function<void(void)> callback) {
-		runCallback = callback;
-	}
+	void Window::setRunCallback(std::function<void(void)> callback) { runCallback = callback; }
 
-	bool Window::isCursorVisible() const {
-		throw "Not implemented";
-	}
+	bool Window::isCursorVisible() const { throw "Not implemented"; }
 	void Window::setCursorVisible(bool value) {
 		if (value) {
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
@@ -88,4 +75,4 @@ namespace Trn {
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		}
 	}
-}
+}  // namespace Trn

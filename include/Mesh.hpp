@@ -2,11 +2,13 @@
 
 // #include <GL/glew.h>
 #include <glad.h>
+
 #include <glm/glm.hpp>
-#include "Shader.hpp"
+#include <iostream>
 #include <string>
 #include <vector>
-#include <iostream>
+
+#include "Shader.hpp"
 
 namespace Trn {
 	struct Vertex {
@@ -18,31 +20,28 @@ namespace Trn {
 	};
 
 	struct Texture {
-		enum Type {
-			Diffuse,
-			Specular
-		};
+		enum Type { Diffuse, Specular };
 		GLuint id;
 		Type type;
 	};
 
 	class Mesh {
-	public:
+	  public:
 		std::vector<Vertex> vertices;
 		std::vector<GLuint> indices;
 		std::vector<Texture> textures;
 
 		/*  Functions  */
-		Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<Texture> textures);
+		Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices,
+		     std::vector<Texture> textures);
 
 		void Draw(Shader shader);
 		void move(glm::vec3 delta);
 
-	private:
+	  private:
 		/*  Render data  */
 		GLuint VAO, VBO, EBO;
 		/*  Functions    */
 		void setupMesh();
-
 	};
-}
+}  // namespace Trn

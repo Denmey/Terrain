@@ -6,4 +6,4 @@ namespace Trn {
 
 	InputManager input;
 	Time &time = Time::Instance();
-}
+}  // namespace Trn

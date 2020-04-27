@@ -1,8 +1,9 @@
 #pragma once
 
 // #include <GL/glew.h>
-#include <glad.h>
 #include <GLFW/glfw3.h>
+#include <glad.h>
+
 #include <functional>
 
 #include "InputManager.hpp"
@@ -12,9 +13,9 @@
 
 namespace Trn {
 	extern Trn::InputManager input;
-	extern Trn::Time &time;
+	extern Trn::Time& time;
 	class Window {
-	public:
+	  public:
 		struct Settings {
 			GLuint width = 800;
 			GLuint height = 600;
@@ -40,9 +41,10 @@ namespace Trn {
 		void setRunCallback(std::function<void(void)>);
 		bool isCursorVisible() const;
 		void setCursorVisible(bool value);
-	private:
+
+	  private:
 		std::function<void(void)> runCallback;
 		GLFWwindow* window = nullptr;
 		Settings settings;
 	};
-}
+}  // namespace Trn

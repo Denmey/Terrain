@@ -1,14 +1,15 @@
 #pragma once
 
 // TODO: delete
+#include <GLFW/glfw3.h>
+
+#include <glm/glm.hpp>
 #include <iostream>
 
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
 #include "Controllable.hpp"
 
 class SimpleControllable : public Controllable {
-public:
+  public:
 	SimpleControllable(glm::vec3 position, glm::vec3 forward, glm::vec3 up, Camera camera)
 	// : Controllable(position, forward, up, camera)
 	{

@@ -2,20 +2,18 @@
 // #include <glad/glad.h>
 // #include <GLFW/glfw3.h>
 
+#include <filesystem>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-
-#include "Shader.hpp"
-#include "Mesh.hpp"
-#include "Window.hpp"
+#include <iostream>
+#include <memory>
+#include <vector>
 
 #include "Camera/SimpleCamera.hpp"
 #include "ControllableCamera.hpp"
-
-#include <filesystem>
-#include <iostream>
-#include <vector>
-#include <memory>
+#include "Mesh.hpp"
+#include "Shader.hpp"
+#include "Window.hpp"
 
 // using std::vector;
 
@@ -50,20 +48,19 @@ static std::filesystem::path subdir(const std::filesystem::path& dir, const std:
 	return std::filesystem::path(dir).append(subdir);
 }
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char const* argv[]) {
 	auto resOrigin = getResourcesPath(argv[0]);
 	// Init shaders and camera
 	Trn::Shader basicShader;
-	basicShader.loadFromFile(
-		subdir(resOrigin, "Shaders/Basic.vert").string(),
-		subdir(resOrigin, "Shaders/Basic.frag").string()
-	);
+	basicShader.loadFromFile(subdir(resOrigin, "Shaders/Basic.vert").string(),
+	                         subdir(resOrigin, "Shaders/Basic.frag").string());
 	basicShader.use();
 	// return 0;
-	auto controllableCamera = std::make_shared<ControllableCamera>(glm::vec3(0.0, 0.0, -1.0), 3.14/2);
+	auto controllableCamera
+	    = std::make_shared<ControllableCamera>(glm::vec3(0.0, 0.0, -1.0), 3.14 / 2);
 	activeControllable = controllableCamera;
 	activeCamera = controllableCamera;
-	Trn::input.setCursorMoveCallback([](double xpos, double ypos, double xdelta, double ydelta){
+	Trn::input.setCursorMoveCallback([](double xpos, double ypos, double xdelta, double ydelta) {
 		activeControllable->processMouse(xdelta, ydelta);
 	});
 	Trn::window.setCursorVisible(false);
@@ -75,7 +72,7 @@ int main(int argc, char const *argv[]) {
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	Trn::window.setRunCallback([&triangle, &basicShader](){
+	Trn::window.setRunCallback([&triangle, &basicShader]() {
 		glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 		// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
