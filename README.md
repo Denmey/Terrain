@@ -17,7 +17,6 @@ No internet connection is required for building.
 
 ### Build and run the standalone target
 
-
 Use the following command to build and run the executable target.
 
 ```bash
