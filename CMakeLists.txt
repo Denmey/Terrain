@@ -54,10 +54,16 @@ CPMFindPackage(
 )
 
 if (glm_ADDED)
-  # message(STATUS "GLM was found: " ${glm_SOURCE_DIR})
-  add_library(glm INTERFACE IMPORTED)
-  # TODO: Check if this needed
-  target_include_directories(glm INTERFACE "${glm_SOURCE_DIR}")
+  set(glm_DIR ${glm_SOURCE_DIR}/cmake/glm)
+  find_package(glm REQUIRED)
+  # TODO: DELETE
+  # message(STATUS "GLM ADDED: " ${glm_ADDED})
+  # message(STATUS "GLM DIR: " ${glm_DIR})
+  # message(STATUS "GLM SOURCE DIR: " ${glm_SOURCE_DIR})
+  # message(STATUS "GLM BINARY DIR: " ${glm_BINARY_DIR})
+  # message(STATUS "GLM FOUND: " ${GLM_FOUND} ${glm_FOUND})
+  # add_library(glm INTERFACE IMPORTED)
+  # target_include_directories(glm INTERFACE "${glm_SOURCE_DIR}")
 endif()
 
 # ---- Add source files ----
@@ -85,8 +91,7 @@ target_compile_options(Terrain PUBLIC "$<$<BOOL:${MSVC}>:/permissive->")
 target_compile_options(Terrain PUBLIC "$<$<BOOL:${MSVC}>:/WX->")
 
 # Link dependencies (if required)
-# target_link_libraries(Terrain PRIVATE glfw glm)
-target_link_libraries(Terrain PUBLIC glfw glm GLAD ${CMAKE_DL_LIBS})
+target_link_libraries(Terrain PUBLIC glfw glm::glm GLAD ${CMAKE_DL_LIBS})
 
 target_include_directories(Terrain
   PUBLIC
@@ -103,5 +108,5 @@ packageProject(
   BINARY_DIR ${PROJECT_BINARY_DIR}
   INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include
   INCLUDE_DESTINATION include/${PROJECT_NAME}-${PROJECT_VERSION}
-  DEPENDENCIES "glfw3;glm"
+  DEPENDENCIES ""
 )
