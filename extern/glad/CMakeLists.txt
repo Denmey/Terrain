@@ -9,7 +9,11 @@ add_library(GLAD
   include/khrplatform.h
 )
 
-target_include_directories(GLAD PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(GLAD PUBLIC # ${CMAKE_CURRENT_SOURCE_DIR}/include
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>  
+  $<INSTALL_INTERFACE:include>  # <prefix>/include
+)
+
 # target_link_libraries(GLAD PUBLIC)
 install(EXPORT GLADTargets FILE GLADTargets.cmake
   EXPORT_LINK_INTERFACE_LIBRARIES
