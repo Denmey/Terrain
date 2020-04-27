@@ -11,11 +11,12 @@ Description to be written
 
 ## Usage
 
-### Build and run the standalone target
-
 To avoid redundant downloads, it's recommended to set a CPM cache directory, e.g.: `export CPM_SOURCE_CACHE=$HOME/.cache/CPM`.
 This will also allow offline configurations if all dependencies are present.
 No internet connection is required for building.
+
+### Build and run the standalone target
+
 
 Use the following command to build and run the executable target.
 
