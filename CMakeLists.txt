@@ -31,9 +31,10 @@ CPMAddPackage(
 )
 
 add_subdirectory(extern/glad)
-# CPMAddPackage(
+# CPMFindPackage(
 #   NAME GLAD
-#   SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/extern/glad
+#   GITHUB_REPOSITORY Dav1dde/glad
+#   VERSION 0.1.33
 # )
 
 CPMFindPackage(
