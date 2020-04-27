@@ -16,10 +16,11 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     
-    - name: apt-update
-      run: sudo apt-get update -y
-    - name: gcc update
-      run: sudo apt-get install -y gcc-9
+    - name: update environment
+      run: |
+        sudo apt-get update -y
+        sudo apt-get remove -y gcc
+        sudo apt-get install -y gcc-9
     - name: get dependencies
       run: sudo apt-get install -y libglfw3 libglfw3-dev
     # - name: get dependencies
