@@ -18,6 +18,8 @@ jobs:
     
     - name: apt-update
       run: sudo apt-get update -qq
+    - name: gcc update
+      run: sudo apt-get update gcc
     - name: get dependencies
       run: sudo apt-get install -y libglfw3 libglfw3-dev
     # - name: get dependencies
