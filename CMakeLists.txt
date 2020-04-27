@@ -30,8 +30,8 @@ CPMAddPackage(
   VERSION 1.2
 )
 
-# TODO: Make it work
-# add_subdirectory(extern/glad)
+# TODO: Make it work properly
+add_subdirectory(extern/glad)
 # CPMFindPackage(
 #   NAME GLAD
 #   GITHUB_REPOSITORY Dav1dde/glad
@@ -74,12 +74,9 @@ endif()
 # Keep that in mind when changing files, or explicitly mention them here.
 FILE(GLOB_RECURSE headers CONFIGURE_DEPENDS 
   "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h" 
-  "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp" 
-  "${CMAKE_CURRENT_SOURCE_DIR}/extern/glad/include/*.h"
 )
 FILE(GLOB_RECURSE sources CONFIGURE_DEPENDS 
   "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/extern/glad/source/*.c"
 )
 
 # TODO: Copy resources (such as shaders, textures, etc.) in build directory?
@@ -98,7 +95,7 @@ set_target_properties(Terrain PROPERTIES CXX_STANDARD 17)
 target_compile_options(Terrain PUBLIC "$<$<BOOL:${MSVC}>:/permissive->")
 
 # Link dependencies (if required)
-target_link_libraries(Terrain PRIVATE glfw glm::glm GLAD ${CMAKE_DL_LIBS})
+target_link_libraries(Terrain PUBLIC glfw glm::glm GLAD ${CMAKE_DL_LIBS})
 # target_link_libraries(Terrain PUBLIC glfw GLAD)
 # target_link_libraries(Terrain PUBLIC glfw glm::glm GLAD ${CMAKE_DL_LIBS})
 
