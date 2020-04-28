@@ -30,14 +30,6 @@ CPMAddPackage(
   VERSION 1.2
 )
 
-# TODO: Make it work properly
-# CPMFindPackage(
-#   NAME GLAD
-#   # GITHUB_REPOSITORY Dav1dde/glad
-#   SOURCE_DIR extern/glad
-#   VERSION 0.1.33
-# )
-
 add_subdirectory(extern/glad)
 
 CPMFindPackage(
@@ -49,7 +41,6 @@ CPMFindPackage(
     "GLFW_BUILD_TESTS Off"
     "GLFW_BUILD_DOCS Off"
 )
-message(STATUS "GLFW DIR: " ${glfw_DIR} ${glfw3_DIR})
 
 CPMFindPackage(
   NAME glm
@@ -63,62 +54,12 @@ if (glm_ADDED)
   find_package(glm REQUIRED)
 endif()
 
-message(STATUS "GLM Include Dirs: " ${glm_INCLUDE_DIRS})
-message(STATUS "GLM Include Dirs: " ${GLM_INCLUDE_DIRS})
-
-# add_library(glmlib INTERFACE)
-if(TARGET glm::glm)
-  message(STATUS "glm::glm is a target")
-  # target_link_libraries(glmlib INTERFACE glm::glm)
-elseif(TARGET glm)
-  message(STATUS "glm is a target")
-  # target_link_libraries(glmlib INTERFACE glm)
-else()
-
-endif()
-
-# include(GNUInstallDirs)
-
-# install(TARGETS glmlib EXPORT glmlibConfig
-#     ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#     LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#     RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})
-# # install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-# install(EXPORT glmlibConfig DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/glmlib)
-# export(TARGETS glmlib FILE glmlibConfig.cmake)
-
-
-# if (NOT glm_DIR)
-#   set(ENV{glm_DIR} ${glm_SOURCE_DIR}/cmake/glm)
-#   find_package(glm REQUIRED)
-#   message(STATUS "GLM was found: " ${glm_DIR})
-# #   # TODO: DELETE
-# #   # message(STATUS "GLM ADDED: " ${glm_ADDED})
-# #   # message(STATUS "GLM DIR: " ${glm_DIR})
-# #   # message(STATUS "GLM SOURCE DIR: " ${glm_SOURCE_DIR})
-# #   # message(STATUS "GLM BINARY DIR: " ${glm_BINARY_DIR})
-# #   # message(STATUS "GLM FOUND: " ${GLM_FOUND} ${glm_FOUND})
-# #   # add_library(glm INTERFACE IMPORTED)
-# #   # target_include_directories(glm INTERFACE "${glm_SOURCE_DIR}")
-# endif()
-
-message(STATUS "GLM was found: " ${GLM_ADDED})
-message(STATUS "GLM was found: " ${glm_ADDED})
-message(STATUS "GLM was found: " ${glm_DIR})
-message(STATUS "GLM was found: " ${glm_SOURCE_DIR})
-
 # ---- Add source files ----
 
 # Note: globbing sources is considered bad practice as CMake's generators may not detect new files automatically.
 # Keep that in mind when changing files, or explicitly mention them here.
-FILE(GLOB_RECURSE headers CONFIGURE_DEPENDS 
-  "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp" 
-  # "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h" 
-)
-FILE(GLOB_RECURSE sources CONFIGURE_DEPENDS 
-  "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp"
-  # "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c"
-)
+FILE(GLOB_RECURSE headers CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp")
+FILE(GLOB_RECURSE sources CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp")
 
 # ---- Create library ----
 
