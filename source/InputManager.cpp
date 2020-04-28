@@ -1,9 +1,5 @@
 #include "InputManager.hpp"
 
-#include "tee.hpp"
-
-// #include <iostream>
-
 namespace Trn {
 	// TODO: Delete InputManager.cpp and Window.hpp externs
 	extern InputManager input;
@@ -70,8 +66,8 @@ namespace Trn {
 	void InputManager::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
 		if (action == GLFW_PRESS) {
 			input.prevMouseState[button] = input.mouseState[button];
-			float currentTime = glfwGetTime();
-			float timeDiff = currentTime - input.mouseLastTimePressed[button];
+			double currentTime = glfwGetTime();
+			double timeDiff = currentTime - input.mouseLastTimePressed[button];
 			if ((timeDiff < input.doublePressInterval)
 			    && input.prevMouseState[button] == KeyState::Released) {
 				input.mouseState[button] = KeyState::DoublePressed;
