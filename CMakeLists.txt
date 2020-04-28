@@ -55,13 +55,38 @@ CPMFindPackage(
   NAME glm
   GITHUB_REPOSITORY g-truc/glm
   GIT_TAG 0.9.9.8
-  # DOWNLOAD_ONLY YES
+  DOWNLOAD_ONLY YES
 )
 
 if (glm_ADDED)
-  add_library(glm INTERFACE)
-  target_include_directories(glm INTERFACE "${glm_SOURCE_DIR}")
+  set(glm_DIR ${glm_SOURCE_DIR}/cmake/glm)
+  find_package(glm REQUIRED)
 endif()
+
+message(STATUS "GLM Include Dirs: " ${glm_INCLUDE_DIRS})
+message(STATUS "GLM Include Dirs: " ${GLM_INCLUDE_DIRS})
+
+# add_library(glmlib INTERFACE)
+if(TARGET glm::glm)
+  message(STATUS "glm::glm is a target")
+  # target_link_libraries(glmlib INTERFACE glm::glm)
+elseif(TARGET glm)
+  message(STATUS "glm is a target")
+  # target_link_libraries(glmlib INTERFACE glm)
+else()
+
+endif()
+
+# include(GNUInstallDirs)
+
+# install(TARGETS glmlib EXPORT glmlibConfig
+#     ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
+#     LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
+#     RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})
+# # install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+# install(EXPORT glmlibConfig DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/glmlib)
+# export(TARGETS glmlib FILE glmlibConfig.cmake)
+
 
 # if (NOT glm_DIR)
 #   set(ENV{glm_DIR} ${glm_SOURCE_DIR}/cmake/glm)
@@ -109,7 +134,8 @@ set_target_properties(Terrain PROPERTIES CXX_STANDARD 17)
 target_compile_options(Terrain PUBLIC "$<$<BOOL:${MSVC}>:/permissive->")
 
 # Link dependencies (if required)
-target_link_libraries(Terrain PUBLIC glfw glm::glm GLAD ${CMAKE_DL_LIBS})
+target_link_libraries(Terrain PUBLIC glfw GLAD ${CMAKE_DL_LIBS})
+target_include_directories(Terrain PUBLIC ${GLM_INCLUDE_DIRS})
 
 target_include_directories(Terrain
   PUBLIC
@@ -126,5 +152,5 @@ packageProject(
   BINARY_DIR ${PROJECT_BINARY_DIR}
   INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include
   INCLUDE_DESTINATION include/${PROJECT_NAME}-${PROJECT_VERSION}
-  DEPENDENCIES "glfw3;glm;GLAD"
+  DEPENDENCIES "glfw3;GLAD"
 )
