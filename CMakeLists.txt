@@ -31,12 +31,14 @@ CPMAddPackage(
 )
 
 # TODO: Make it work properly
-add_subdirectory(extern/glad)
 # CPMFindPackage(
 #   NAME GLAD
-#   GITHUB_REPOSITORY Dav1dde/glad
+#   # GITHUB_REPOSITORY Dav1dde/glad
+#   SOURCE_DIR extern/glad
 #   VERSION 0.1.33
 # )
+
+add_subdirectory(extern/glad)
 
 CPMFindPackage(
   NAME glfw3
@@ -47,36 +49,50 @@ CPMFindPackage(
     "GLFW_BUILD_TESTS Off"
     "GLFW_BUILD_DOCS Off"
 )
+message(STATUS "GLFW DIR: " ${glfw_DIR} ${glfw3_DIR})
 
 CPMFindPackage(
   NAME glm
   GITHUB_REPOSITORY g-truc/glm
   GIT_TAG 0.9.9.8
-  DOWNLOAD_ONLY YES
+  # DOWNLOAD_ONLY YES
 )
 
 if (glm_ADDED)
-  set(glm_DIR ${glm_SOURCE_DIR}/cmake/glm)
-  find_package(glm REQUIRED)
-  # TODO: DELETE
-  # message(STATUS "GLM ADDED: " ${glm_ADDED})
-  # message(STATUS "GLM DIR: " ${glm_DIR})
-  # message(STATUS "GLM SOURCE DIR: " ${glm_SOURCE_DIR})
-  # message(STATUS "GLM BINARY DIR: " ${glm_BINARY_DIR})
-  # message(STATUS "GLM FOUND: " ${GLM_FOUND} ${glm_FOUND})
-  # add_library(glm INTERFACE IMPORTED)
-  # target_include_directories(glm INTERFACE "${glm_SOURCE_DIR}")
+  add_library(glm INTERFACE)
+  target_include_directories(glm INTERFACE "${glm_SOURCE_DIR}")
 endif()
+
+# if (NOT glm_DIR)
+#   set(ENV{glm_DIR} ${glm_SOURCE_DIR}/cmake/glm)
+#   find_package(glm REQUIRED)
+#   message(STATUS "GLM was found: " ${glm_DIR})
+# #   # TODO: DELETE
+# #   # message(STATUS "GLM ADDED: " ${glm_ADDED})
+# #   # message(STATUS "GLM DIR: " ${glm_DIR})
+# #   # message(STATUS "GLM SOURCE DIR: " ${glm_SOURCE_DIR})
+# #   # message(STATUS "GLM BINARY DIR: " ${glm_BINARY_DIR})
+# #   # message(STATUS "GLM FOUND: " ${GLM_FOUND} ${glm_FOUND})
+# #   # add_library(glm INTERFACE IMPORTED)
+# #   # target_include_directories(glm INTERFACE "${glm_SOURCE_DIR}")
+# endif()
+
+message(STATUS "GLM was found: " ${GLM_ADDED})
+message(STATUS "GLM was found: " ${glm_ADDED})
+message(STATUS "GLM was found: " ${glm_DIR})
+message(STATUS "GLM was found: " ${glm_SOURCE_DIR})
 
 # ---- Add source files ----
 
 # Note: globbing sources is considered bad practice as CMake's generators may not detect new files automatically.
 # Keep that in mind when changing files, or explicitly mention them here.
 FILE(GLOB_RECURSE headers CONFIGURE_DEPENDS 
-  "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h" 
+  "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp" 
+  # "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h" 
 )
 FILE(GLOB_RECURSE sources CONFIGURE_DEPENDS 
   "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp"
+  # "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c"
 )
 
 # ---- Create library ----
@@ -94,8 +110,6 @@ target_compile_options(Terrain PUBLIC "$<$<BOOL:${MSVC}>:/permissive->")
 
 # Link dependencies (if required)
 target_link_libraries(Terrain PUBLIC glfw glm::glm GLAD ${CMAKE_DL_LIBS})
-# target_link_libraries(Terrain PUBLIC glfw GLAD)
-# target_link_libraries(Terrain PUBLIC glfw glm::glm GLAD ${CMAKE_DL_LIBS})
 
 target_include_directories(Terrain
   PUBLIC
@@ -112,5 +126,5 @@ packageProject(
   BINARY_DIR ${PROJECT_BINARY_DIR}
   INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include
   INCLUDE_DESTINATION include/${PROJECT_NAME}-${PROJECT_VERSION}
-  DEPENDENCIES ""
+  DEPENDENCIES "glfw3;glm;GLAD"
 )
