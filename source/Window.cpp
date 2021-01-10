@@ -3,7 +3,7 @@
 #include <iostream>
 
 namespace Trn {
-	Window::Window(const char* name, const Settings& settings) {
+	Window::Window(const Settings& settings) {
 		glfwSetErrorCallback([](int error, const char* description) {
 			(void)error;
 			std::cerr << "Error: " << description << std::endl;
@@ -11,12 +11,12 @@ namespace Trn {
 		if (!glfwInit()) {
 			error("Can't init GLFW");
 		}
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, settings.major);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, settings.minor);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, settings.OGLVersionMajor);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, settings.OGLVersionMinor);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, settings.profile);
 		glfwWindowHint(GLFW_RESIZABLE, settings.resizable);
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, settings.debug);
-		window = glfwCreateWindow(settings.width, settings.height, name, NULL, NULL);
+		window = glfwCreateWindow(settings.width, settings.height, settings.title, NULL, NULL);
 		if (window == NULL) {
 			error("Failed to create GLFW window");
 		}
@@ -28,8 +28,11 @@ namespace Trn {
 
 		glViewport(0, 0, settings.width, settings.height);
 		// glfwSetWindowUserPointer(window, this);
-		input.captureKeyCallback(window);
+
+		input.captureKeyCallback(window);  // TODO: Move to BaseApplication
 		input.captureMouseCallback(window);
+
+		// TODO: Create IMGUI context
 	}
 
 	void Window::error(const char* text) {
@@ -52,21 +55,22 @@ namespace Trn {
 		glfwTerminate();
 	}
 
-	void Window::run() {
-		while (!glfwWindowShouldClose(window)) {
-			time.update();
-			// TODO: Create entities manager, move through all entities and call update for each of
-			// them here.
+	// void Window::run() { // TODO: Delete
+	// 	while (!glfwWindowShouldClose(window)) {
+	// 		time.update();
+	// 		// TODO: Create entities manager, move through all entities and call update for each of
+	// 		// them here.
 
-			runCallback();
+	// 		runCallback();
 
-			glfwPollEvents();
-			glfwSwapBuffers(window);
-		}
-	}
+	// 		glfwPollEvents();
+	// 		glfwSwapBuffers(window);
+	// 	}
+	// }
 
-	void Window::setRunCallback(std::function<void(void)> callback) { runCallback = callback; }
+	// void Window::setRunCallback(std::function<void(void)> callback) { runCallback = callback; }
 
+	// TODO
 	bool Window::isCursorVisible() const { throw "Not implemented"; }
 	void Window::setCursorVisible(bool value) {
 		if (value) {

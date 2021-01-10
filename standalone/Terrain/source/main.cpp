@@ -2,6 +2,7 @@
 // #include <glad/glad.h>
 // #include <GLFW/glfw3.h>
 
+#include <entt/entt.hpp>
 #include <filesystem>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -9,6 +10,7 @@
 #include <memory>
 #include <vector>
 
+#include "BaseApplication.hpp"
 #include "Camera/SimpleCamera.hpp"
 #include "ControllableCamera.hpp"
 #include "Mesh.hpp"
@@ -18,7 +20,8 @@
 // using std::vector;
 
 // generate triangle mesh
-Trn::Mesh getTriangleMesh(glm::vec3 positions[3]) {
+Trn::Mesh getTriangleMesh() {
+	glm::vec3 positions[3] = {glm::vec3(0.0), glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0)};
 	std::vector<Trn::Vertex> vertices;
 	std::vector<GLuint> indices;
 	std::vector<Trn::Texture> textures;
@@ -48,31 +51,37 @@ static std::filesystem::path subdir(const std::filesystem::path& dir, const std:
 	return std::filesystem::path(dir).append(subdir);
 }
 
-int main(int argc, char const* argv[]) {
-	auto resOrigin = getResourcesPath(argv[0]);
-	// Init shaders and camera
+std::filesystem::path resOrigin;
+class Application : public Trn::BaseApplication {
+  private:
 	Trn::Shader basicShader;
-	basicShader.loadFromFile(subdir(resOrigin, "Shaders/Basic.vert").string(),
-	                         subdir(resOrigin, "Shaders/Basic.frag").string());
-	basicShader.use();
-	// return 0;
-	auto controllableCamera
-	    = std::make_shared<ControllableCamera>(glm::vec3(0.0, 0.0, -1.0), 3.14 / 2);
-	activeControllable = controllableCamera;
-	activeCamera = controllableCamera;
-	Trn::input.setCursorMoveCallback([](double xpos, double ypos, double xdelta, double ydelta) {
-		activeControllable->processMouse(xdelta, ydelta);
-	});
-	Trn::window.setCursorVisible(false);
+	std::shared_ptr<ControllableCamera> controllableCamera;
+	Trn::Mesh triangle;
 
-	// Init renderable object
-	glm::vec3 points[3] = {glm::vec3(0.0), glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0)};
-	auto triangle = getTriangleMesh(points);
-	triangle.move({0.0f, 0.0f, 1.0f});
+  public:
+	Application(const Trn::Window::Settings& settings = {}) : triangle(getTriangleMesh()){};
+	virtual void start() override {
+		// Init shaders and camera
+		basicShader.loadFromFile(subdir(resOrigin, "Shaders/Basic.vert").string(),
+		                         subdir(resOrigin, "Shaders/Basic.frag").string());
+		basicShader.use();
+		controllableCamera
+		    = std::make_shared<ControllableCamera>(glm::vec3(0.0, 0.0, -1.0), 3.14 / 2);
+		activeControllable = controllableCamera;
+		activeCamera = controllableCamera;
 
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	Trn::window.setRunCallback([&triangle, &basicShader]() {
+		Trn::input.setCursorMoveCallback(
+		    [](double xpos, double ypos, double xdelta, double ydelta) {
+			    activeControllable->processMouse(xdelta, ydelta);
+		    });
+		window.setCursorVisible(false);
+
+		triangle.move({0.0f, 0.0f, 1.0f});
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	}
+	virtual void update() override {
 		glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 		// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -88,11 +97,17 @@ int main(int argc, char const* argv[]) {
 		// TODO: Get rid of double code in main.cpp and ControllableCamera.processKey
 		for (int key = 0; key < GLFW_KEY_LAST; ++key) {
 			if (Trn::input.isPressed(key)) {
-				activeControllable->processKey(key, Trn::time.getDeltaTime());
+				activeControllable->processKey(key, Trn::clock.deltaTime());
 			}
 		}
-	});
-	Trn::window.run();
+	}
+	virtual void end() override {}
+};
+
+int main(int argc, char const* argv[]) {
+	resOrigin = getResourcesPath(argv[0]);
+	Application app;
+	app.run();
 
 	return 0;
 }

@@ -1,9 +1,6 @@
 #include "Globals.hpp"
 
 namespace Trn {
-	Window::Settings settings;
-	Window window("OpenGL Window", settings);
-
 	InputManager input;
-	Time &time = Time::Instance();
+	Clock clock; // TODO: Make const to prevent update calls? But update from BaseApplication won't work
 }  // namespace Trn

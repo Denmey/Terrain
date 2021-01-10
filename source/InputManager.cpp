@@ -14,8 +14,10 @@ namespace Trn {
 		// static_cast<InputManager*>(glfwGetWindowUserPointer(window));
 		if (action == GLFW_PRESS) {
 			input.previousState[key] = input.currentState[key];
-			double currentTime = glfwGetTime();
+
+			double currentTime = glfwGetTime(); // TODO: Use clock
 			double timeDiff = currentTime - input.lastTimePressed[key];
+			
 			// using std::cout;
 			// using std::endl;
 			if ((timeDiff < input.doublePressInterval)

@@ -11,13 +11,12 @@ namespace Trn {
 	}
 
 	void Mesh::Draw(Shader shader) {
-		using std::string;
 		GLuint diffuseNr = 1;
 		GLuint specularNr = 1;
 		for (GLuint i = 0; i < textures.size(); i++) {
 			glActiveTexture(GL_TEXTURE0 + i);  // activate proper texture unit before binding
 			// retrieve texture number (the N in diffuse_textureN)
-			string name;
+			std::string name;
 			Texture::Type type = textures[i].type;
 			switch (type) {
 				case Texture::Type::Diffuse:

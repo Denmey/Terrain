@@ -1,15 +1,13 @@
 #pragma once
 
-class InputManager;
-class Window;
-class Time;
+// TODO: Remove
+// class InputManager;
+// class Clock;
 
+#include "Clock.hpp"
 #include "InputManager.hpp"
-#include "Time.hpp"
-#include "Window.hpp"
 
 namespace Trn {
 	extern InputManager input;
-	extern Time &time;
-	extern Window window;
+	extern Clock clock;
 }  // namespace Trn
